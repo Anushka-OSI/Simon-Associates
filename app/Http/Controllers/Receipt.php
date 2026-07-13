@@ -31,7 +31,7 @@ class Receipt extends Controller
                 Invoice::where('customerRefId', $customerRefId)->pluck('invoiceNumber')
             )->get();
 
-            $advances = advancePayment::where('customer_id', $customerRefId)->where('is_applied', 0)->get();
+            $advances = advancePayment::where('customer_id', $customerRefId)->where('is_applied', 1)->where('is_complete', 0)->get();
 
             return view('User1.recepitGenerate', [
                 'company_data'  => $company_data,
@@ -199,6 +199,8 @@ class Receipt extends Controller
             'balance' => 'required|numeric',
         ]);
 
+        // dd($request->all());
+
         $payment          = $request->input('balance', []);
         $selectedItems    = $request->input('selected_items', []);
         $method           = $request->input('payment');
@@ -212,7 +214,8 @@ class Receipt extends Controller
         foreach ($selectedAdvances as $advanceId) {
             $advance = advancePayment::find($advanceId);
             if ($advance) {
-                $advance->is_applied = true; // or any flag
+                $advance->is_applied = true;
+                $advance->is_complete = 1;
                 $advance->save();
 
                 $adv_payments += $advance->amount; // Assuming 'amount' is the field for the advance payment amount

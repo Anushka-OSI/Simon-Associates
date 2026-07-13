@@ -216,13 +216,14 @@
                     @foreach ($data as $item)
                     @php
                     $invoice = App\Models\Invoice::find($item);
-
+                     $receipt = App\Models\Modelreceipt::where('invoiceNumber', $invoice->invoiceNumber)->first();
+                    //  dd($receipt);
                     @endphp
                     <tr>
                         <td class="text-center" contenteditable="true" style="color: #00008B">{{ $invoice->invoiceNumber }}</td>
                         <td class="text-start" contenteditable="true" style="color: #00008B">Secretarial fees from ******* to ******** at the rate of Rs.**** per month.</td>
                         <td class="text-center" contenteditable="true" style="color: #00008B">TRF</td>
-                        <td class="text-end" contenteditable="true" style="color: #00008B"></td>
+                        <td class="text-end" contenteditable="false" style="color: #00008B">{{ $receipt->payedAmount ?? 0 }}</td>
                     </tr>
                     @endforeach
                 </tbody>

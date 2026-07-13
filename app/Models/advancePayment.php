@@ -18,6 +18,7 @@ class advancePayment extends Model
         'payment_method',
         'description',
         'is_applied',
+        'is_complete'
     ];
 
     public function customer()

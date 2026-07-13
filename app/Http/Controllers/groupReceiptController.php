@@ -77,9 +77,10 @@ class groupReceiptController extends Controller
                 });
 
                 $receipt = new Modelreceipt;
-
+                // dd($request->all());
                 $receipt->invoiceNumber = $invoiceData->invoiceNumber;
                 $receipt->receiptNumber = $request->receipt;
+                $receipt->payedAmount = $amount;
                 $receipt->additional = '0';
                 $receipt->payedDate = Carbon::now('Asia/Colombo');
                 $receipt->offline = 0;

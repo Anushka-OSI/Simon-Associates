@@ -129,45 +129,43 @@
 
 
     <div class="row">
-    <div class="col-12 grid-margin">
-        <div class="card shadow" style="border-radius: 15px">
-            <div class="card-body">
-                <h4>Advance Payments</h4>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Select</th>
-                                <th>Payment Date</th>
-                                <th>Amount</th>
-                                <th>Invoice No</th>
-                                <th>Receipt No</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($advances as $ad)
-                            <tr>
-                                <td class="text-center">
-                                    <input type="checkbox"
-                                           name="selected_advances[]"
-                                           value="{{ $ad->id }}"
-                                           class="form-check-input">
-                                </td>
-                                <td>{{ $ad->payment_date }}</td>
-                                <td>{{ number_format($ad->amount, 2) }}</td>
-                                <td>{{ $ad->invoiceId }}</td>
-                                <td>{{ $ad->receiptNo }}</td>
-                                <td>{{ $ad->description }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+        <div class="col-12 grid-margin">
+            <div class="card shadow" style="border-radius: 15px">
+                <div class="card-body">
+                    <h4>Advance Payments</h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Select</th>
+                                    <th>Payment Date</th>
+                                    <th>Amount</th>
+                                    <th>Invoice No</th>
+                                    <th>Receipt No</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($advances as $ad)
+                                    <tr>
+                                        <td class="text-center">
+                                            <input type="checkbox" name="selected_advances[]"
+                                                value="{{ $ad->id }}" class="form-check-input">
+                                        </td>
+                                        <td>{{ $ad->payment_date }}</td>
+                                        <td>{{ number_format($ad->amount, 2) }}</td>
+                                        <td>{{ $ad->invoiceId }}</td>
+                                        <td>{{ $ad->receiptNo }}</td>
+                                        <td>{{ $ad->description }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
 @endsection
