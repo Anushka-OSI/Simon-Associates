@@ -286,32 +286,7 @@
                     $totalAdvanceAmount = 0;
                 @endphp
 
-                @if (isset($advancePayments) && $advancePayments->count() > 0)
 
-
-                    @foreach ($advancePayments as $item)
-                        @php
-                            $no += 1;
-                        @endphp
-                        <tr>
-                            <td class="text-center">
-                                {{ $no }}
-                            </td>
-                            <td class="fw-semibold">
-                                Advance Payment / Overpayment
-                            </td>
-
-
-                            @php
-                                $totalAdvanceAmount += $item->amount;
-                            @endphp
-                            <td class="fw-semibold text-end">
-                                {{ number_format($item->amount, 2) }}
-                            </td>
-                        </tr>
-                    @endforeach
-
-                    @endif
 
 
                     @if ($ft == 2)
@@ -357,6 +332,9 @@
                         @endforeach
                     @endif
 
+
+
+
                     @if ($t == 2)
                         <tr>
                             <td colspan="2" class='fw-bold text-center'>
@@ -366,6 +344,43 @@
                                 {{ number_format($total, 2) }}
                             </td>
                         </tr>
+                    @endif
+
+
+                     @if (isset($advancePayments) && $advancePayments->count() > 0)
+
+
+                        @foreach ($advancePayments as $item)
+                            @php
+                                $no += 1;
+                            @endphp
+                            <tr>
+                                <td class="text-center">
+                                    {{ $no }}
+                                </td>
+                                <td class="fw-semibold">
+                                    Advance Payment / Overpayment
+                                </td>
+
+
+                                @php
+                                    $totalAdvanceAmount += $item->amount;
+                                @endphp
+                                <td class="fw-semibold text-end">
+                                    {{'- '. number_format($item->amount, 2) }}
+                                </td>
+                            </tr>
+                        @endforeach
+
+                          <tr>
+                            <td colspan="2" class='fw-bold text-center'>
+                                Grand Total
+                            </td>
+                            <td class="fw-bold text-end">
+                                {{ number_format($total - $totalAdvanceAmount, 2) }}
+                            </td>
+                        </tr>
+
                     @endif
 
                 </tbody>
