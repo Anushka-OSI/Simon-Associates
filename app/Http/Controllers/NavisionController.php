@@ -86,7 +86,7 @@ class NavisionController extends Controller
 
     public function ongoingInvoice()
     {
-        $data = Invoice::where('status', '2')->orWhere('status', '3')->orWhere('status', '4')->orWhere('status', '5')->orWhere('status', '6')->get();
+        $data = Invoice::where('status', '2')->orWhere('status', '3')->orWhere('status', '4')->orWhere('status', '5')->orWhere('status', '6')->orderbydesc('id')->get();
 
         return view('User1.ongoing', compact('data'));
     }

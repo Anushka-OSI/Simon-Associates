@@ -190,7 +190,11 @@
                                 $customer = App\Models\Invoice::find($cusid);
 
                                 echo $customer->companyName . ",<br>";
+
+
                             }
+
+                             $total = 0;
                         @endphp
                         {{-- {{ $Invoice->to }} <br>
                         {{ $Invoice->companyName }} --}}
@@ -217,13 +221,14 @@
                     @php
                     $invoice = App\Models\Invoice::find($item);
                      $receipt = App\Models\Modelreceipt::where('invoiceNumber', $invoice->invoiceNumber)->first();
+                     $total += $receipt->payedAmount;
                     //  dd($receipt);
                     @endphp
                     <tr>
                         <td class="text-center" contenteditable="true" style="color: #00008B">{{ $invoice->invoiceNumber }}</td>
                         <td class="text-start" contenteditable="true" style="color: #00008B">Secretarial fees from ******* to ******** at the rate of Rs.**** per month.</td>
                         <td class="text-center" contenteditable="true" style="color: #00008B">TRF</td>
-                        <td class="text-end" contenteditable="false" style="color: #00008B">{{ $receipt->payedAmount ?? 0 }}</td>
+                        <td class="text-end" contenteditable="false" style="color: #00008B">    {{ number_format($receipt->payedAmount ?? 0, 2) }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -244,7 +249,7 @@
                 <div class="col-2">
                     Total
                 </div>
-                <div class="col-2 text-end" contenteditable="true" style="color: #00008B">0.00</div>
+                <div class="col-2 text-end" contenteditable="true" style="color: #00008B">    {{ number_format($total ?? 0, 2) }}</div>
             </div>
             <div class="row">
                 <div class="col-8"></div>
