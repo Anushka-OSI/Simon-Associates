@@ -56,6 +56,13 @@
             background: #00008B;
         }
 
+        .description-selector {
+            margin-bottom: 15px;
+        }
+
+        .no-print {
+            display: block;
+        }
 
         @media print {
             body {
@@ -73,6 +80,11 @@
                 width: 100%;
                 margin-bottom: 40px;
                 /* Adjust as needed */
+            }
+
+            .no-print,
+            .description-selector {
+                display: none !important;
             }
 
             @page {
@@ -171,6 +183,56 @@
             </div>
         </div>
 
+
+        <div class="container mt-3 description-selector">
+            <label for="descriptionSelect" class="fw-bold">
+                Select Receipt Description
+            </label>
+
+            <select id="descriptionSelect" class="form-control">
+                <option value="">-- Select Description --</option>
+
+                <option
+                    value="Settlement of Secretarial Fee Invoice for the Period 01st April .......... to 30th September ..........">
+                    1. Secretarial Fee - April to September
+                </option>
+
+                <option
+                    value="Settlement of Secretarial Fee Invoice for the Period 01st October .......... to 31st March ..........">
+                    2. Secretarial Fee - October to March
+                </option>
+
+                <option
+                    value="Settlement of Secretarial Fee Invoice for the Period 01st April .......... to 31st March ..........">
+                    3. Secretarial Fee - April to March
+                </option>
+
+                <option
+                    value="Settlement of Secretarial Fee Invoice for the Period 01st January .......... to 31st December ..........">
+                    4. Secretarial Fee - January to December
+                </option>
+
+                <option
+                    value="Settlement of Professional Fee Invoice for the Period 01st April .......... to 30th April ..........">
+                    5. Professional Fee - April
+                </option>
+
+                <option value="Settlement of Secretarial Fee Invoice">
+                    6. Secretarial Fee Invoice
+                </option>
+
+                <option value="Settlement of Professional Fee Invoice">
+                    7. Professional Fee Invoice
+                </option>
+
+                <option value="Professional fees for strike off Procedure">
+                    8. Professional Fees - Strike Off Procedure
+                </option>
+
+                <option value="custom">9. Custom Description</option>
+            </select>
+        </div>
+
         <div class="table-area">
             <table>
                 <thead>
@@ -219,8 +281,12 @@
                                 <tr>
 
                                     <td class="text-center">{{ $get->invoiceNumber }}</td>
-                                    <td class="text-start" contenteditable="true" style="color: #00008B">
-                                        {{ $firstdec }}</td>
+                                    {{-- <td class="text-start" contenteditable="true" style="color: #00008B">
+                                        {{ $firstdec }}</td> --}}
+                                    <td class="text-start description-display" contenteditable="true"
+                                        style="color: #00008B">
+                                        {{ $firstdec }}
+                                    </td>
                                     <td class="text-center">
                                         {{ $method == 'online Transfer' ? 'TRF' : ($method == 'Cheque' ? 'Chq' : $method) }}
                                     </td>
@@ -326,6 +392,34 @@
 
             document.getElementById('totalInWords').value = "Rupees " + dollarsInWords + ' and ' + centsInWords +
                 ' cents';
+
+
+            const descriptionSelect = document.getElementById('descriptionSelect');
+
+            const descriptionCells = document.querySelectorAll('.description-display');
+
+            descriptionSelect.addEventListener('change', function() {
+
+                let selectedDescription = this.value;
+
+                if (selectedDescription === 'custom') {
+
+                    selectedDescription = '';
+
+                    descriptionCells.forEach(function(td) {
+                        td.textContent = '';
+                        td.focus();
+                    });
+
+                } else if (selectedDescription !== '') {
+
+                    descriptionCells.forEach(function(td) {
+                        td.textContent = selectedDescription;
+                    });
+
+                }
+
+            });
         });
     </script>
 
@@ -376,7 +470,11 @@
                 },
                 html2canvas: {
                     dpi: 192,
-                    letterRendering: true
+                    letterRendering: true,
+                    ignoreElements: function(element) {
+                        return element.classList.contains('no-print') ||
+                            element.classList.contains('description-selector');
+                    }
                 },
                 jsPDF: {
                     unit: 'mm',
@@ -403,7 +501,11 @@
                 },
                 html2canvas: {
                     dpi: 192,
-                    letterRendering: true
+                    letterRendering: true,
+                    ignoreElements: function(element) {
+                        return element.classList.contains('no-print') ||
+                            element.classList.contains('description-selector');
+                    }
                 },
                 jsPDF: {
                     unit: 'mm',
