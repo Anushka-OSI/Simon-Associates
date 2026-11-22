@@ -327,7 +327,8 @@
                         <thead>
                             <tr>
                                 <th class="text-center">ID</th>
-                                <th class="text-center">User Name</th>
+                                <th class="text-center">Handler Name</th>
+                                <th class="text-center">Status</th>
 
                             </tr>
                         </thead>
@@ -341,6 +342,25 @@
                                         <td class="text-center">
                                             {{ $get->name }}
                                         </td>
+
+                                        <td class="text-center">
+                                            <form action="{{ route('handlers.toggle-status', $get->id) }}"
+                                                method="POST">
+                                                @csrf
+
+                                                <div class="form-check form-switch d-flex justify-content-center">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        onchange="this.form.submit()"
+                                                        {{ $get->is_active ? 'checked' : '' }}
+                                                        style="width: 45px; height: 22px; cursor: pointer;">
+                                                </div>
+
+                                                <small class="{{ $get->is_active ? 'text-success' : 'text-danger' }}">
+                                                    {{ $get->is_active ? 'Active' : 'Inactive' }}
+                                                </small>
+                                            </form>
+                                        </td>
+
                                     </tr>
                                 @endforeach
                             @endif

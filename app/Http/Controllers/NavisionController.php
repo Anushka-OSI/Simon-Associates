@@ -79,7 +79,8 @@ class NavisionController extends Controller
 
     public function CompanyRegister()
     {
-        $handlers = handler::all();
+        $handlers = Handler::where('is_active', 1)->get();
+        // dd($handlers);
 
         return view('User1.Registration', compact('handlers'));
     }
@@ -159,6 +160,19 @@ class NavisionController extends Controller
 
         return view('User2.update-form', compact('data', 'userData', 'handlerData', 'customersList'));
     }
+    public function toggleStatus($id)
+{
+    $handler = Handler::findOrFail($id);
+
+    $handler->is_active = !$handler->is_active;
+    $handler->save();
+
+    return redirect()->back()->with(
+        'success',
+        'Handler status updated successfully!'
+    );
+}
+
 
     // ===========================================================
 

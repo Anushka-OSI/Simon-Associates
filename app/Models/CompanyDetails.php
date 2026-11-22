@@ -1,8 +1,6 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CompanyDetails extends Model
@@ -18,8 +16,13 @@ class CompanyDetails extends Model
     ];
 
     public function payments()
-{
-    return $this->hasMany(advancePayment::class);
-}
+    {
+        return $this->hasMany(advancePayment::class);
+    }
+
+     public function handler()
+    {
+        return $this->belongsTo(Handler::class, 'handleBy');
+    }
 
 }

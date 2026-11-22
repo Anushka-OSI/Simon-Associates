@@ -107,6 +107,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/add-bank', [PaymentController::class, 'addBank'])->name('add.bank');
 
         Route::get('/update', [NavisionController::class, 'updateForm'])->name('update');
+        Route::post('/handlers/{id}/toggle-status', [NavisionController::class, 'toggleStatus'])
+    ->name('handlers.toggle-status');
 
         Route::get('2/outstanding', [userTwoController::class, 'OutstandingInvoice'])->name('two-Outstanding-invoice');
 
@@ -250,6 +252,7 @@ Route::get('/generate/Reciept/form/{id}', [Receipt::class, 'generateReceiptForm'
 Route::match(['get', 'post'], '/custom/Reciept', [Receipt::class, 'CustomReceipt'])->name('CustomReceipt');
 
 Route::get('/send-checked-receipts', [groupReceiptController::class, 'sendCheckedReceipts'])->name('sendCheckedReceipts');
+// Route::get('/add-to-bill', [groupReceiptController::class, 'addToBill']);
 
 Route::get('/settle/outstanding/group', [groupReceiptController::class, 'settleoutstandinggroup'])->name('settle.outstanding.group');
 

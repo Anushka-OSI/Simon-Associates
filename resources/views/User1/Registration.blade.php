@@ -65,7 +65,7 @@
 
 
     @php
-        $customers = App\Models\CompanyDetails::where('state', true)->orderByDesc('id')->get();
+        $customers = App\Models\CompanyDetails::with('handler')->where('state', true)->orderByDesc('id')->get();
     @endphp
 
     <div class="row">
@@ -75,15 +75,16 @@
                     <h4 class="card-title">@yield('Ttopic')</h4>
                     @yield('search')
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th class="text-center">Action</th>
                                     <th class="text-center">To</th>
                                     <th class="text-center">Emails</th>
                                     <th class="text-center">Phone No</th>
                                     <th class="text-center">Name</th>
+                                    <th class="text-center">Handler Name</th>
                                     <th class="text-center">Address</th>
-                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,12 +92,7 @@
 
                                 @foreach ($customers as $cData)
                                     <tr>
-                                        <td class="">{{ $cData->to }}</td>
-                                        <td class="">{{ $cData->email }}</td>
-                                        <td class="">{{ $cData->phone }}</td>
-                                        <td class="">{{ $cData->companyName }}</td>
-                                        <td class="">{{ $cData->address }}</td>
-                                        <td class="text-center">
+                                         <td class="text-center">
                                             <button class="btn btn-sm btn-info" data-toggle="modal"
                                                 data-target="#updateModal" data-id="{{ $cData->id }}"
                                                 data-to="{{ $cData->to }}" data-email="{{ $cData->email }}"
@@ -107,8 +103,12 @@
                                                 Update
                                             </button>
                                         </td>
-
-
+                                        <td class="">{{ $cData->to }}</td>
+                                        <td class="">{{ $cData->email }}</td>
+                                        <td class="">{{ $cData->phone }}</td>
+                                        <td class="">{{ $cData->companyName }}</td>
+                                        <td class="">{{ $cData->handler->name }}</td>
+                                        <td class="">{{ $cData->address }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -167,7 +167,7 @@
                             <label for="handleBy">Service By</label>
                             <select name="handleBy" id="handleBy" class="form-control">
                                 <option value="">Select Service</option>
-                                @foreach ($ServiceBy as $service)
+                                @foreach ($handlers as $service)
                                     <option value="{{ $service->id }}">{{ $service->name }}</option>
                                 @endforeach
                             </select>
